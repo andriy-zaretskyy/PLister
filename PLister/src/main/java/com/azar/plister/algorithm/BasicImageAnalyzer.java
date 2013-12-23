@@ -16,19 +16,18 @@ import com.azar.plister.model.SimpleSelection;
  */
 public class BasicImageAnalyzer implements ImageAnalyzer {
     private Bitmap modelBitmap;
-    private enum BackgroundType
-    {
+
+    private enum BackgroundType {
         Black,
         White
     }
 
-    public BasicImageAnalyzer()
-    {
+    public BasicImageAnalyzer() {
     }
 
     BackgroundType backgroundType;
 
-    private static int getBrightness(int color){
+    private static int getBrightness(int color) {
         int red = Color.red(color);
         int green = Color.green(color);
         int blue = Color.blue(color);
@@ -54,54 +53,43 @@ public class BasicImageAnalyzer implements ImageAnalyzer {
         int max = Color.red(pixels[0]);
         int min = Color.red(pixels[0]);
 
-        for(int pixel: pixels)
-        {
+        for (int pixel : pixels) {
             int color = Color.red(pixel);
             average = (average * (count - 1) + color) / count;
             ++count;
-            if(color > max)
-            {
+            if (color > max) {
                 max = color;
             }
-            if(color < min)
-            {
+            if (color < min) {
                 min = color;
             }
         }
 
         long blackCount = 0;
         long whiteCount = 0;
-        final double blackThreshold = average*0.6;
-        final double whiteThreshold = average*1.6;
+        final double blackThreshold = average * 0.6;
+        final double whiteThreshold = average * 1.6;
 
-        for(int pixel: pixels)
-        {
-            if(Color.red(pixel) < blackThreshold)
-            {
+        for (int pixel : pixels) {
+            if (Color.red(pixel) < blackThreshold) {
                 blackCount++;
             }
-            if (Color.red(pixel) > whiteThreshold)
-            {
+            if (Color.red(pixel) > whiteThreshold) {
                 whiteCount++;
             }
         }
 
         boolean isWhiteBackground = whiteCount > blackCount;
-        if(whiteCount < pixels.length*0.01 && blackCount > pixels.length*0.01)
-        {
+        if (whiteCount < pixels.length * 0.01 && blackCount > pixels.length * 0.01) {
             isWhiteBackground = true;
         }
 
         backgroundType = isWhiteBackground ? BackgroundType.White : BackgroundType.Black;
 
-        for(int i = 0; i < pixels.length; ++i)
-        {
-            if(isWhiteBackground)
-            {
+        for (int i = 0; i < pixels.length; ++i) {
+            if (isWhiteBackground) {
                 pixels[i] = Color.red(pixels[i]) < average * 0.8 ? Color.BLACK : Color.WHITE;
-            }
-            else
-            {
+            } else {
                 pixels[i] = Color.red(pixels[i]) < whiteThreshold ? Color.WHITE : Color.BLACK;
             }
         }
@@ -116,27 +104,23 @@ public class BasicImageAnalyzer implements ImageAnalyzer {
 
 
     @Override
-    public Selection getSelection(SelectionParams params){
-        if(this.modelBitmap == null)
-        {
+    public Selection getSelection(SelectionParams params) {
+        if (this.modelBitmap == null) {
             throw new IllegalStateException("Model is not initialized. Call initModel to initialize it.");
         }
 
         Point[] points = new Point[2];
         int whitespace = 0;
         int fluctuation = 0;
-        if (backgroundType == BackgroundType.Black)
-        {
-            whitespace = (int)((double)this.modelBitmap.getWidth())/35;
-            fluctuation = (int)((double)this.modelBitmap.getHeight()) / 45;
-        }
-        else
-        {
-            whitespace = (int)((double)this.modelBitmap.getWidth())/20;
-            fluctuation = (int)((double)this.modelBitmap.getHeight()) / 40;
+        if (backgroundType == BackgroundType.Black) {
+            whitespace = (int) ((double) this.modelBitmap.getWidth()) / 35;
+            fluctuation = (int) ((double) this.modelBitmap.getHeight()) / 45;
+        } else {
+            whitespace = (int) ((double) this.modelBitmap.getWidth()) / 20;
+            fluctuation = (int) ((double) this.modelBitmap.getHeight()) / 40;
         }
 
-        int threshold = (int)((double)whitespace/10);
+        int threshold = (int) ((double) whitespace / 10);
         int xresultstart = Math.min(params.getTouchPointFirst().x, this.modelBitmap.getWidth());
         int yresultstart = Math.min(params.getTouchPointFirst().y, this.modelBitmap.getHeight());
 
@@ -144,24 +128,23 @@ public class BasicImageAnalyzer implements ImageAnalyzer {
         int lystart = Math.max(params.getTouchPointFirst().y - fluctuation, 0);
         int lyend = Math.min(params.getTouchPointFirst().y + fluctuation, this.modelBitmap.getHeight() - 1);
 
-        for (int ly = lystart; ly <= lyend; ++ly){
+        for (int ly = lystart; ly <= lyend; ++ly) {
             int whitePixels = 0;
             int xstart = Math.min(params.getTouchPointFirst().x, this.modelBitmap.getWidth() - 1);
 
-            for (; xstart > 0; --xstart){
-                if (Color.red(this.modelBitmap.getPixel(xstart, ly)) > 250){
+            for (; xstart > 0; --xstart) {
+                if (Color.red(this.modelBitmap.getPixel(xstart, ly)) > 250) {
                     whitePixels++;
-                }
-                else{
+                } else {
                     whitePixels = 0;
                 }
 
-                if (whitePixels > whitespace){
+                if (whitePixels > whitespace) {
                     break;
                 }
             }
 
-            if (xresultstart > xstart && whitePixels > threshold){
+            if (xresultstart > xstart && whitePixels > threshold) {
                 xresultstart = xstart;
                 yresultstart = ly;
             }
@@ -174,30 +157,29 @@ public class BasicImageAnalyzer implements ImageAnalyzer {
         lystart = Math.max(params.getTouchPointLast().y - fluctuation, 0);
         lyend = Math.min(params.getTouchPointLast().y + fluctuation, this.modelBitmap.getHeight() - 1);
 
-        for (int ly = lystart; ly <= lyend; ++ly){
+        for (int ly = lystart; ly <= lyend; ++ly) {
             int whitePixels = 0;
             int xend = Math.min(params.getTouchPointLast().x, this.modelBitmap.getWidth() - 1);
 
-            for (; xend < this.modelBitmap.getWidth() - 1; ++xend){
-                if (Color.red(this.modelBitmap.getPixel(xend, ly)) > 250){
+            for (; xend < this.modelBitmap.getWidth() - 1; ++xend) {
+                if (Color.red(this.modelBitmap.getPixel(xend, ly)) > 250) {
                     whitePixels++;
-                }
-                else{
+                } else {
                     whitePixels = 0;
                 }
 
-                if (whitePixels > whitespace){
+                if (whitePixels > whitespace) {
                     break;
                 }
             }
 
-            if (xresultend < xend && whitePixels > threshold){
+            if (xresultend < xend && whitePixels > threshold) {
                 xresultend = xend;
                 yresultend = ly;
             }
 
         }
 
-        return new SimpleSelection(new  Point(xresultstart, yresultstart), new Point(xresultend, yresultend));
+        return new SimpleSelection(new Point(xresultstart, yresultstart), new Point(xresultend, yresultend));
     }
 }

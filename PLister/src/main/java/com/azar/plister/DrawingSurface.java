@@ -29,7 +29,7 @@ public final class DrawingSurface extends SurfaceView implements SurfaceHolder.C
     private Bucket bucket = null;
     private ImageAnalyzer analyzer = new BasicImageAnalyzer();
     private ImageProvider provider = null;
-    private  ContentResolver resolver;
+    private ContentResolver resolver;
 
     private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
@@ -59,8 +59,7 @@ public final class DrawingSurface extends SurfaceView implements SurfaceHolder.C
         this.getHolder().addCallback(this);
     }
 
-    private void setRun(boolean run)
-    {
+    private void setRun(boolean run) {
         _run = run;
     }
 
@@ -71,25 +70,20 @@ public final class DrawingSurface extends SurfaceView implements SurfaceHolder.C
 
 
     private Point currentPointStart = null;
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if(event.getAction() == MotionEvent.ACTION_DOWN)
-        {
-            currentPointStart = new Point((int)event.getX(), (int)event.getY());
-        }
-        else if(event.getAction() == MotionEvent.ACTION_UP && this.analyzer != null){
-            if(currentPointStart == null)
-            {
-                currentPointStart = new Point((int)event.getX(), (int)event.getY());
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            currentPointStart = new Point((int) event.getX(), (int) event.getY());
+        } else if (event.getAction() == MotionEvent.ACTION_UP && this.analyzer != null) {
+            if (currentPointStart == null) {
+                currentPointStart = new Point((int) event.getX(), (int) event.getY());
             }
-            Point currentPointEnd = new Point((int)event.getX(), (int)event.getY());
+            Point currentPointEnd = new Point((int) event.getX(), (int) event.getY());
 
-            if(currentPointEnd.x >= currentPointStart.x)
-            {
+            if (currentPointEnd.x >= currentPointStart.x) {
                 addSelection(currentPointStart, currentPointEnd);
-            }
-            else
-            {
+            } else {
                 removeSelection(currentPointStart, currentPointEnd);
             }
         }
@@ -109,17 +103,16 @@ public final class DrawingSurface extends SurfaceView implements SurfaceHolder.C
     public void surfaceCreated(SurfaceHolder holder) {
 
         Bitmap backgroundNotScaled = this.bucket.getBackground(resolver);
-        double ratio = ((double)backgroundNotScaled.getWidth()) / backgroundNotScaled.getHeight();
+        double ratio = ((double) backgroundNotScaled.getWidth()) / backgroundNotScaled.getHeight();
 
         double newHeight = this.getHeight();
-        double newWidth = ((double)this.getHeight()) * ratio;
-        if(newWidth > this.getWidth())
-        {
-            newHeight = ((double)this.getWidth()) / ratio;
+        double newWidth = ((double) this.getHeight()) * ratio;
+        if (newWidth > this.getWidth()) {
+            newHeight = ((double) this.getWidth()) / ratio;
             newWidth = this.getWidth();
         }
 
-        Bitmap background = Bitmap.createScaledBitmap(backgroundNotScaled, (int)newWidth, (int)newHeight, true);
+        Bitmap background = Bitmap.createScaledBitmap(backgroundNotScaled, (int) newWidth, (int) newHeight, true);
         this.analyzer.initModel(background);
         //this.provider = new BasicImageProvider(this.analyzer.getModel(), this.bucket);
         this.provider = new BasicImageProvider(background, this.bucket);
@@ -136,30 +129,26 @@ public final class DrawingSurface extends SurfaceView implements SurfaceHolder.C
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        if(this.thread != null)
-        {
-            try
-            {
-                    this.setRun(false);
-                    thread.join();
-            }
-            catch (InterruptedException e)
-            {
+        if (this.thread != null) {
+            try {
+                this.setRun(false);
+                thread.join();
+            } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
         }
     }
 
-    class DrawThread extends  Thread{
+    class DrawThread extends Thread {
         private ImageProvider provider;
         private SurfaceHolder surfaceHolder;
 
-        public DrawThread(SurfaceHolder surfaceHolder, ImageProvider provider){
-            if (surfaceHolder == null){
+        public DrawThread(SurfaceHolder surfaceHolder, ImageProvider provider) {
+            if (surfaceHolder == null) {
                 throw new NullPointerException("surfaceHolder can not be null");
             }
 
-            if (provider == null){
+            if (provider == null) {
                 throw new NullPointerException("provider can not be null");
             }
 
@@ -169,20 +158,16 @@ public final class DrawingSurface extends SurfaceView implements SurfaceHolder.C
 
         @Override
         public void run() {
-            synchronized (surfaceHolder)
-            {
+            synchronized (surfaceHolder) {
                 Canvas canvas = null;
-                while (_run){
-                    try{
+                while (_run) {
+                    try {
                         canvas = surfaceHolder.lockCanvas(null);
-                        if(canvas != null)
-                        {
+                        if (canvas != null) {
                             canvas.drawBitmap(provider.getResultPicture(), 0, 0, null);
                         }
-                    }
-                    finally {
-                        if (_run)
-                        {
+                    } finally {
+                        if (_run) {
                             surfaceHolder.unlockCanvasAndPost(canvas);
                         }
                     }

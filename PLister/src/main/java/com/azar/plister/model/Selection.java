@@ -1,6 +1,5 @@
 package com.azar.plister.model;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 /**
@@ -8,5 +7,6 @@ import android.graphics.Canvas;
  */
 public interface Selection {
     void draw(Canvas canvas);
+
     double getDistance(Selection other);
 }

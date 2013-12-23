@@ -25,7 +25,7 @@ public final class SimpleBucket implements Bucket {
         return id;
     }
 
-    public void setUid(String id){
+    public void setUid(String id) {
         this.id = id;
     }
 
@@ -34,19 +34,19 @@ public final class SimpleBucket implements Bucket {
         return name;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
 
     }
 
     @Override
-    public Bitmap getBackground(ContentResolver resolver) throws StorageException{
-        if(this.background == null){
-          try{
-              this.background = BitmapFactory.decodeStream(resolver.openInputStream(getImageUri()));
-          }catch (FileNotFoundException e){
-              throw new StorageException("Error loading bitmap", e);
-          }
+    public Bitmap getBackground(ContentResolver resolver) throws StorageException {
+        if (this.background == null) {
+            try {
+                this.background = BitmapFactory.decodeStream(resolver.openInputStream(getImageUri()));
+            } catch (FileNotFoundException e) {
+                throw new StorageException("Error loading bitmap", e);
+            }
         }
 
         return this.background;
@@ -70,18 +70,15 @@ public final class SimpleBucket implements Bucket {
     public void RemoveNearest(Selection sln) {
         Selection toBeRemoved = null;
         double nearestDistance = Double.MAX_VALUE;
-        for(Selection s: selections)
-        {
+        for (Selection s : selections) {
             double distance = s.getDistance(sln);
-            if (nearestDistance >= distance)
-            {
+            if (nearestDistance >= distance) {
                 toBeRemoved = s;
                 nearestDistance = distance;
             }
         }
 
-        if (toBeRemoved != null)
-        {
+        if (toBeRemoved != null) {
             this.selections.remove(toBeRemoved);
         }
     }
@@ -101,11 +98,11 @@ public final class SimpleBucket implements Bucket {
 
     @Override
     public boolean equals(Object o) {
-        if(!(o instanceof SimpleBucket)){
+        if (!(o instanceof SimpleBucket)) {
             return false;
         }
 
-        return ((SimpleBucket)o).getUid().equals(this.getUid());
+        return ((SimpleBucket) o).getUid().equals(this.getUid());
     }
 
     @Override

@@ -25,7 +25,8 @@ public final class BucketJsonDeserializer implements JsonDeserializer<Bucket> {
         result.setUid(obj.getAsJsonPrimitive("id").getAsString());
         Uri uri = context.deserialize(obj.getAsJsonPrimitive("imageUri"), Uri.class);
         result.setImageUri(uri);
-        Type collectionType = new TypeToken<ArrayList<Selection>>(){}.getType();
+        Type collectionType = new TypeToken<ArrayList<Selection>>() {
+        }.getType();
         ArrayList<Selection> selections = context.deserialize(obj.getAsJsonArray("selections"), collectionType);
         result.setSelections(selections);
         return result;

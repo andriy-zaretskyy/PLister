@@ -13,16 +13,16 @@ public class BasicImageProvider implements ImageProvider {
     private final Bucket bucket;
     private final Bitmap background;
 
-    public BasicImageProvider(Bitmap background, Bucket bucket){
+    public BasicImageProvider(Bitmap background, Bucket bucket) {
         this.bucket = bucket;
         this.background = background;
     }
 
     @Override
-    public Bitmap getResultPicture(){
-        Bitmap result = background.copy(Bitmap.Config.ARGB_8888,true);
+    public Bitmap getResultPicture() {
+        Bitmap result = background.copy(Bitmap.Config.ARGB_8888, true);
         Canvas canvas = new Canvas(result);
-        for(Selection s: bucket.getSelections()){
+        for (Selection s : bucket.getSelections()) {
             s.draw(canvas);
         }
 

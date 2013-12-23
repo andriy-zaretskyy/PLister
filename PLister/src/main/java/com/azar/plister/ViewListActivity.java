@@ -11,18 +11,21 @@ import com.azar.plister.model.StorageException;
 
 public final class ViewListActivity extends Activity {
 
-   // TextView textTargetUri;
+    // TextView textTargetUri;
     private DrawingSurface targetImage;
     private Storage storage;
-    /** Called when the activity is first created. */
+
+    /**
+     * Called when the activity is first created.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_main);
 
-        targetImage = (DrawingSurface)findViewById(R.id.targetimage);
+        targetImage = (DrawingSurface) findViewById(R.id.targetimage);
         storage = new SimpleStorage(getFilesDir());
-        String bucketId = (String)getIntent().getExtras().getString("bucket_uid");
+        String bucketId = (String) getIntent().getExtras().getString("bucket_uid");
         SimpleBucket sample = new SimpleBucket();
         sample.setUid(bucketId);
 
@@ -30,10 +33,9 @@ public final class ViewListActivity extends Activity {
         try {
             Bucket current = storage.getBuckets().get(storage.getBuckets().indexOf(sample));
             targetImage.setBucket(current, getContentResolver());
-        } catch (StorageException e){
+        } catch (StorageException e) {
             e.printStackTrace();
         }
-
 
 
     }

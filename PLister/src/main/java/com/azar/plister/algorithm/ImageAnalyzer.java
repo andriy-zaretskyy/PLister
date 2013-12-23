@@ -9,6 +9,8 @@ import com.azar.plister.model.Selection;
  */
 public interface ImageAnalyzer {
     void initModel(Bitmap src);
+
     Bitmap getModel();
+
     Selection getSelection(SelectionParams params);
 }

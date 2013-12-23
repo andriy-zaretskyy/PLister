@@ -10,9 +10,14 @@ import java.util.List;
  */
 public interface Bucket {
     String getUid();
+
     String getName();
+
     Bitmap getBackground(ContentResolver resolver) throws StorageException;
+
     List<Selection> getSelections();
+
     void AddSelection(Selection s);
+
     void RemoveNearest(Selection s);
 }

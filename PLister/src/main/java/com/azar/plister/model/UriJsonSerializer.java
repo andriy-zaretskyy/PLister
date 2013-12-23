@@ -12,7 +12,7 @@ import java.lang.reflect.Type;
 /**
  * Created by azar on 12/9/13.
  */
-public final class UriJsonSerializer implements JsonSerializer<Uri>{
+public final class UriJsonSerializer implements JsonSerializer<Uri> {
     @Override
     public JsonElement serialize(Uri src, Type typeOfSrc, JsonSerializationContext context) {
         return new JsonPrimitive(src.toString());

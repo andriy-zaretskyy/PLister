@@ -27,7 +27,7 @@ public final class SimpleStorage implements Storage {
     private final File filename;
     private final Gson gson;
 
-    public SimpleStorage(File dataLocation){
+    public SimpleStorage(File dataLocation) {
         this.filename = new File(dataLocation, FILENAME);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Bucket.class, new BucketJsonDeserializer());
@@ -40,40 +40,41 @@ public final class SimpleStorage implements Storage {
 
 
     @Override
-    public List<Bucket> getBuckets(){
-        if(this.buckets.isEmpty() && this.filename.exists()){
+    public List<Bucket> getBuckets() {
+        if (this.buckets.isEmpty() && this.filename.exists()) {
 
             StringBuffer buffer = new StringBuffer();
             try {
                 BufferedReader in = new BufferedReader(new FileReader(this.filename));
-                try{
+                try {
                     String line;
-                    while((line = in.readLine()) != null){
+                    while ((line = in.readLine()) != null) {
                         buffer.append(line);
                     }
-                }finally {
+                } finally {
                     in.close();
                 }
             } catch (IOException e) {
                 throw new StorageException("Failed to save.", e);
             }
 
-            Type collectionType = new TypeToken<ArrayList<Bucket>>(){}.getType();
-            this.buckets = (ArrayList<Bucket>)gson.fromJson(buffer.toString(), collectionType);
+            Type collectionType = new TypeToken<ArrayList<Bucket>>() {
+            }.getType();
+            this.buckets = (ArrayList<Bucket>) gson.fromJson(buffer.toString(), collectionType);
         }
 
         return this.buckets;
     }
 
     @Override
-    public void save(){
+    public void save() {
 
         String json = gson.toJson(this.buckets);
         try {
             Writer out = new OutputStreamWriter(new FileOutputStream(this.filename), "UTF-8");
-            try{
+            try {
                 out.write(json);
-            }finally {
+            } finally {
                 out.close();
             }
 

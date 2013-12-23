@@ -7,5 +7,6 @@ import java.util.List;
  */
 public interface Storage {
     List<Bucket> getBuckets();
+
     void save();
 }

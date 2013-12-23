@@ -9,19 +9,16 @@ public class SelectionParams {
     private final Point touchPointFirst;
     private final Point touchPointLast;
 
-    public SelectionParams(Point touchFirst, Point touchLast)
-    {
+    public SelectionParams(Point touchFirst, Point touchLast) {
         touchPointFirst = touchFirst;
         touchPointLast = touchLast;
     }
 
-    public Point getTouchPointFirst()
-    {
+    public Point getTouchPointFirst() {
         return touchPointFirst;
     }
 
-    public Point getTouchPointLast()
-    {
+    public Point getTouchPointLast() {
         return touchPointLast;
     }
 }
