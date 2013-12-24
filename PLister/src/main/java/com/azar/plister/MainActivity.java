@@ -19,7 +19,6 @@ import com.azar.plister.model.Bucket;
 import com.azar.plister.model.SimpleBucket;
 import com.azar.plister.model.SimpleStorage;
 import com.azar.plister.model.Storage;
-import com.azar.plister.model.StorageException;
 
 import java.util.Date;
 
@@ -112,18 +111,10 @@ public final class MainActivity extends ActionBarActivity {
             bucket.setImageUri(targetUri);
             bucket.setName((new Date()).toString());
 
-            try {
-                this.storage.getBuckets().add(bucket);
-                this.storage.save();
-            } catch (StorageException e) {
-                e.printStackTrace();
-            }
+            this.storage.getBuckets().add(bucket);
+            this.storage.save();
 
-            try {
-                this.updateListView();
-            } catch (StorageException e) {
-                e.printStackTrace();
-            }
+            this.updateListView();
         }
     }
 }

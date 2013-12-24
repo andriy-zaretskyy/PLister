@@ -73,6 +73,7 @@ public final class DrawingSurface extends SurfaceView implements SurfaceHolder.C
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             currentPointStart = new Point((int) event.getX(), (int) event.getY());
         } else if (event.getAction() == MotionEvent.ACTION_UP && this.analyzer != null) {
@@ -91,7 +92,7 @@ public final class DrawingSurface extends SurfaceView implements SurfaceHolder.C
     }
 
     private void removeSelection(Point currentPointStart, Point currentPointEnd) {
-        this.bucket.RemoveNearest(new SimpleSelection(currentPointStart, currentPointEnd));
+        this.bucket.RemoveNearest(new SimpleSelection(currentPointEnd, currentPointStart));
     }
 
     private void addSelection(Point currentPointStart, Point currentPointEnd) {
