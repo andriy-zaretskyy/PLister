@@ -45,7 +45,7 @@ public final class SimpleBucket implements Bucket {
     @Override
     public Bitmap getBackground(ContentResolver resolver) throws StorageException {
         if (this.background == null) {
-            try {
+            try {   
                 Matrix mat = new Matrix();
                 // Rotate the bitmap
                 this.background = BitmapFactory.decodeStream(resolver.openInputStream(getImageUri()));
