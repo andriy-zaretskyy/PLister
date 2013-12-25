@@ -17,8 +17,7 @@ This code is created with AndroidStudio.
     * To cross item out swipe left over it
     * To undo item swipe right over it
    
-**Known issues:** 
-*   On budget devices there are out of memory exceptions.
+**Known issues:** On budget devices there are OutOfMemoryError exceptions.
 
 **For those who desperately need fixes and support:**
 I've created the application for myself. I'm pretty happy with it.
