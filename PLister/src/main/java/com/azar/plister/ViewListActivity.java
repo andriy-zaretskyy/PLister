@@ -1,6 +1,8 @@
 package com.azar.plister;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import com.azar.plister.model.Bucket;
@@ -38,6 +40,12 @@ public final class ViewListActivity extends Activity {
         }
 
 
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
     @Override

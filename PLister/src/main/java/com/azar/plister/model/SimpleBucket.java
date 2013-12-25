@@ -3,9 +3,12 @@ package com.azar.plister.model;
 import android.content.ContentResolver;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -43,10 +46,23 @@ public final class SimpleBucket implements Bucket {
     public Bitmap getBackground(ContentResolver resolver) throws StorageException {
         if (this.background == null) {
             try {
+                Matrix mat = new Matrix();
+                // Rotate the bitmap
                 this.background = BitmapFactory.decodeStream(resolver.openInputStream(getImageUri()));
+                if(this.background.getWidth() > this.background.getHeight())
+                {
+                    mat.postRotate(90);
+                }
+
+                this.background = Bitmap.createBitmap(this.background , 0, 0, this.background .getWidth(), this.background .getHeight(), mat, true);
+
             } catch (FileNotFoundException e) {
                 throw new StorageException("Error loading bitmap", e);
+            } catch (IOException e) {
+                throw new StorageException("Error loading bitmap", e);
             }
+
+
         }
 
         return this.background;
