@@ -4,8 +4,8 @@ PLister
 This is a simple android application that allows you digitize your hand written lists.
 This code is created with AndroidStudio.
 
-Usage manual
-------------
+**Usage manual**
+
 *   Install the application (apk is located at PLister\PLister-PLister.apk)
 *   Take a photo of your hand-written text (paper, white boarad or black board). 
 *   PLEASE NOTE: ONLY PORTRAIT IMAGES ARE SUPPORTED!
@@ -17,8 +17,7 @@ Usage manual
     * To cross item out swipe left over it
     * To undo item swipe right over it
    
-Known issues: 
--------------
+**Known issues:** 
 *   On budget devices there are out of memory exceptions.
 
 **For those who desperately need fixes and support:**
