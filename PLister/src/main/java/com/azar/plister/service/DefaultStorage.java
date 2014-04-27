@@ -31,9 +31,9 @@ import java.util.List;
 final class DefaultStorage implements StorageService {
 
     private static final String FILENAME = "storage.1.0.json";
-    private List<Bucket> buckets = new ArrayList<Bucket>();
     private final File filename;
     private final Gson gson;
+    private List<Bucket> buckets = new ArrayList<Bucket>();
 
     public DefaultStorage(File dataLocation) {
         this.filename = new File(dataLocation, FILENAME);

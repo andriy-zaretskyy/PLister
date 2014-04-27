@@ -1,6 +1,5 @@
 package com.azar.plister.service;
 
-import android.gesture.Prediction;
 import android.graphics.Bitmap;
 
 import com.azar.plister.model.Bucket;

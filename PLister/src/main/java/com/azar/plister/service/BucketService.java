@@ -11,6 +11,8 @@ import com.azar.plister.model.Selection;
  */
 public interface BucketService extends Service {
     void removeNearest(Bucket bucket, Selection selection);
+
     Bitmap getBackground(Bucket bucket, ContentResolver resolver);
+
     Bitmap getScaledBitmap(Bitmap bitmap, int width, int height);
 }

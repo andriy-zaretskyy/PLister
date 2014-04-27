@@ -15,17 +15,11 @@ import com.azar.plister.model.SimpleSelection;
  * Created by azar on 11/29/13.
  */
 class DefaultImageAnalyzer implements ImageAnalyzer {
+    BackgroundType backgroundType;
     private Bitmap modelBitmap;
-
-    private enum BackgroundType {
-        Black,
-        White
-    }
 
     public DefaultImageAnalyzer() {
     }
-
-    BackgroundType backgroundType;
 
     private static int getBrightness(int color) {
         int red = Color.red(color);
@@ -101,7 +95,6 @@ class DefaultImageAnalyzer implements ImageAnalyzer {
     public Bitmap getModel() {
         return this.modelBitmap;
     }
-
 
     @Override
     public Selection getSelection(SelectionParams params) {
@@ -181,5 +174,11 @@ class DefaultImageAnalyzer implements ImageAnalyzer {
         }
 
         return new SimpleSelection(new Point(xresultstart, yresultstart), new Point(xresultend, yresultend));
+    }
+
+
+    private enum BackgroundType {
+        Black,
+        White
     }
 }
