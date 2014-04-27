@@ -4,8 +4,9 @@ import android.content.ContentResolver;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
+
+import com.google.common.base.Throwables;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -20,7 +21,6 @@ public final class SimpleBucket implements Bucket {
     private String name;
     private Uri imageUri;
     private List<Selection> selections = new ArrayList<Selection>();
-    private transient Bitmap background = null;
     private String id = UUID.randomUUID().toString();
 
     @Override
@@ -43,32 +43,6 @@ public final class SimpleBucket implements Bucket {
     }
 
     @Override
-    public Bitmap getBackground(ContentResolver resolver) throws StorageException {
-        if (this.background == null) {
-            try {   
-                Matrix mat = new Matrix();
-                // Rotate the bitmap
-                this.background = BitmapFactory.decodeStream(resolver.openInputStream(getImageUri()));
-                if(this.background.getWidth() > this.background.getHeight())
-                {
-                    mat.postRotate(90);
-                }
-
-                this.background = Bitmap.createBitmap(this.background , 0, 0, this.background .getWidth(), this.background .getHeight(), mat, true);
-
-            } catch (FileNotFoundException e) {
-                throw new StorageException("Error loading bitmap", e);
-            } catch (IOException e) {
-                throw new StorageException("Error loading bitmap", e);
-            }
-
-
-        }
-
-        return this.background;
-    }
-
-    @Override
     public List<Selection> getSelections() {
         return new ArrayList<Selection>(selections);
     }
@@ -78,25 +52,13 @@ public final class SimpleBucket implements Bucket {
     }
 
     @Override
-    public void AddSelection(Selection s) {
+    public void addSelection(Selection s) {
         this.selections.add(s);
     }
 
     @Override
-    public void RemoveNearest(Selection sln) {
-        Selection toBeRemoved = null;
-        double nearestDistance = Double.MAX_VALUE;
-        for (Selection s : selections) {
-            double distance = s.getDistance(sln);
-            if (nearestDistance >= distance) {
-                toBeRemoved = s;
-                nearestDistance = distance;
-            }
-        }
-
-        if (toBeRemoved != null) {
-            this.selections.remove(toBeRemoved);
-        }
+    public void removeSelection(Selection selection) {
+        this.selections.remove(selection);
     }
 
     @Override
@@ -104,6 +66,7 @@ public final class SimpleBucket implements Bucket {
         return getName();
     }
 
+    @Override
     public Uri getImageUri() {
         return imageUri;
     }

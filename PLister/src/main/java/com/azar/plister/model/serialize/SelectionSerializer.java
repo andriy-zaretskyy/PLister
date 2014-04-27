@@ -1,5 +1,6 @@
-package com.azar.plister.model;
+package com.azar.plister.model.serialize;
 
+import com.azar.plister.model.Selection;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;

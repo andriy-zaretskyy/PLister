@@ -1,5 +1,7 @@
-package com.azar.plister.model;
+package com.azar.plister.model.serialize;
 
+import com.azar.plister.model.Bucket;
+import com.azar.plister.model.SimpleBucket;
 import com.google.gson.InstanceCreator;
 
 import java.lang.reflect.Type;

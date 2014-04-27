@@ -1,7 +1,9 @@
-package com.azar.plister.model;
+package com.azar.plister.model.serialize;
 
 import android.graphics.Point;
 
+import com.azar.plister.model.Selection;
+import com.azar.plister.model.SimpleSelection;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;

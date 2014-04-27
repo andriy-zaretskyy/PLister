@@ -1,4 +1,4 @@
-package com.azar.plister.algorithm;
+package com.azar.plister.service;
 
 import android.graphics.Bitmap;
 

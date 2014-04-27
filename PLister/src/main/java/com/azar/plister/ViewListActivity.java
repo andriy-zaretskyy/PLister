@@ -7,54 +7,53 @@ import android.os.Bundle;
 
 import com.azar.plister.model.Bucket;
 import com.azar.plister.model.SimpleBucket;
-import com.azar.plister.model.SimpleStorage;
-import com.azar.plister.model.Storage;
-import com.azar.plister.model.StorageException;
+import com.azar.plister.service.ApplicationServices;
+import com.azar.plister.service.StorageService;
 
 public final class ViewListActivity extends Activity {
 
-    // TextView textTargetUri;
     private DrawingSurface targetImage;
-    private Storage storage;
+    private StorageService storageService;
 
     /**
      * Called when the activity is first created.
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_main);
-
-        targetImage = (DrawingSurface) findViewById(R.id.targetimage);
-        storage = new SimpleStorage(getFilesDir());
-        String bucketId = (String) getIntent().getExtras().getString("bucket_uid");
-        SimpleBucket sample = new SimpleBucket();
-        sample.setUid(bucketId);
-
-
         try {
-            Bucket current = storage.getBuckets().get(storage.getBuckets().indexOf(sample));
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.drawing_surface);
+
+            targetImage = (DrawingSurface) findViewById(R.id.targetimage);
+            storageService = ApplicationServices.INSTANCE.createStorage(getFilesDir());
+            String bucketId = (String) getIntent().getExtras().getString("bucket_uid");
+            SimpleBucket sample = new SimpleBucket();
+            sample.setUid(bucketId);
+
+            Bucket current = storageService.getBuckets().get(storageService.getBuckets().indexOf(sample));
             targetImage.setBucket(current, getContentResolver());
-        } catch (StorageException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            ExeptionHandler.handle(e, ViewListActivity.this);
         }
-
-
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        try {
+            super.onConfigurationChanged(newConfig);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } catch (Exception e) {
+            ExeptionHandler.handle(e, ViewListActivity.this);
+        }
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         try {
-            this.storage.save();
-        } catch (StorageException e) {
-            e.printStackTrace();
+            super.onDestroy();
+            this.storageService.save();
+        } catch (Exception e) {
+            ExeptionHandler.handle(e, ViewListActivity.this);
         }
     }
 }

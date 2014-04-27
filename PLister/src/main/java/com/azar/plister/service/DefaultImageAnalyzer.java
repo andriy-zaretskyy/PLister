@@ -1,4 +1,4 @@
-package com.azar.plister.algorithm;
+package com.azar.plister.service;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -14,7 +14,7 @@ import com.azar.plister.model.SimpleSelection;
 /**
  * Created by azar on 11/29/13.
  */
-public class BasicImageAnalyzer implements ImageAnalyzer {
+class DefaultImageAnalyzer implements ImageAnalyzer {
     private Bitmap modelBitmap;
 
     private enum BackgroundType {
@@ -22,7 +22,7 @@ public class BasicImageAnalyzer implements ImageAnalyzer {
         White
     }
 
-    public BasicImageAnalyzer() {
+    public DefaultImageAnalyzer() {
     }
 
     BackgroundType backgroundType;

@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.6.+'
+        classpath 'com.android.tools.build:gradle:0.9.+'
     }
 }
 apply plugin: 'android'
@@ -14,7 +14,7 @@ repositories {
 
 android {
     compileSdkVersion 16
-    buildToolsVersion "18.1.1"
+    buildToolsVersion "19.0.2"
 
     defaultConfig {
         minSdkVersion 7
@@ -36,4 +36,5 @@ android {
 dependencies {
     compile 'com.android.support:appcompat-v7:+'
     compile files('libs/gson-2.2.4.jar')
+    compile files('libs/guava-17.0.jar')
 }

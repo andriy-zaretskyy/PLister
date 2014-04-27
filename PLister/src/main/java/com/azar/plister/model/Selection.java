@@ -1,12 +1,12 @@
 package com.azar.plister.model;
 
-import android.graphics.Canvas;
+import android.graphics.Point;
 
 /**
  * Created by azar on 11/29/13.
  */
 public interface Selection {
-    void draw(Canvas canvas);
+    Point getStart();
 
-    double getDistance(Selection other);
+    Point getEnd();
 }

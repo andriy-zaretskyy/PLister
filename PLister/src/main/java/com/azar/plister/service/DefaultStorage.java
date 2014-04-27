@@ -1,7 +1,15 @@
-package com.azar.plister.model;
+package com.azar.plister.service;
 
 import android.net.Uri;
 
+import com.azar.plister.model.Bucket;
+import com.azar.plister.model.Selection;
+import com.azar.plister.model.serialize.BucketJsonDeserializer;
+import com.azar.plister.model.serialize.SelectionDeserializer;
+import com.azar.plister.model.serialize.SelectionSerializer;
+import com.azar.plister.model.serialize.UriJsonDeserializer;
+import com.azar.plister.model.serialize.UriJsonSerializer;
+import com.google.common.base.Throwables;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -20,14 +28,14 @@ import java.util.List;
 /**
  * Created by azar on 12/7/13.
  */
-public final class SimpleStorage implements Storage {
+final class DefaultStorage implements StorageService {
 
     private static final String FILENAME = "storage.1.0.json";
     private List<Bucket> buckets = new ArrayList<Bucket>();
     private final File filename;
     private final Gson gson;
 
-    public SimpleStorage(File dataLocation) {
+    public DefaultStorage(File dataLocation) {
         this.filename = new File(dataLocation, FILENAME);
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Bucket.class, new BucketJsonDeserializer());
@@ -55,7 +63,7 @@ public final class SimpleStorage implements Storage {
                     in.close();
                 }
             } catch (IOException e) {
-                throw new StorageException("Failed to save.", e);
+                Throwables.propagate(e);
             }
 
             Type collectionType = new TypeToken<ArrayList<Bucket>>() {
@@ -79,7 +87,7 @@ public final class SimpleStorage implements Storage {
             }
 
         } catch (IOException e) {
-            throw new StorageException("Failed to save.", e);
+            Throwables.propagate(e);
         }
     }
 }

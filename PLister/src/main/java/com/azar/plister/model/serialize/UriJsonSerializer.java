@@ -1,4 +1,4 @@
-package com.azar.plister.model;
+package com.azar.plister.model.serialize;
 
 import android.net.Uri;
 
