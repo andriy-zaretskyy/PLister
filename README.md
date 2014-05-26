@@ -6,6 +6,7 @@ This code is created with AndroidStudio.
 
 **Usage manual**
 
+*   Download and install apk from https://www.dropbox.com/s/jlfue254xgrpdoc/PLister-PLister.apk
 *   Take a photo of your hand-written text (paper, white boarad or black board). 
 *   PLEASE NOTE: ONLY PORTRAIT IMAGES ARE SUPPORTED!
 *   Open the application
