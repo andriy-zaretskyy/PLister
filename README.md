@@ -5,7 +5,7 @@ This is a simple android application that allows you digitize your hand written 
 This code is created with AndroidStudio.
 
 **Usage manual**
-
+*   Download apk from https://www.dropbox.com/s/jlfue254xgrpdoc/PLister-PLister.apk 
 *   Take a photo of your hand-written text (paper, white boarad or black board). 
 *   PLEASE NOTE: ONLY PORTRAIT IMAGES ARE SUPPORTED!
 *   Open the application
